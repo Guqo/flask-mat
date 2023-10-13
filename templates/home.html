@@ -1,0 +1,31 @@
+{% from "showlinks.html" import show_links %}
+<!doctype html>
+<html lang="cs">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'home.css') }}">
+</head>
+
+<body>
+    <div class="parent">
+        <div class="header mb-2">
+            {{ show_links() }}
+        </div>
+        <div class="questions_answered container border text-light p-3">
+            <h1>Questions Answered.</h1>
+            <hr class="text-light" />
+            <a href="" class="text-light m-3">
+                <h4>Where do I learn python?</h4>
+                <p>Asked by: Student</p>
+                <p>Answered: Teacher</p>
+            </a>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+
+</html>
