@@ -17,6 +17,9 @@
         </div>
         <div class="questions_answered container border text-light p-3">
             <h1>Register Page</h1>
+            {% if error %}
+            <h4 class="text-danger">{{ error }}</h4>
+            {% endif%}
             <hr class="text-light" />
             <form action="/register" method="POST">
                 <div class="mb-3">

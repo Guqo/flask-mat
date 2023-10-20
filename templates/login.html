@@ -17,8 +17,11 @@
         </div>
         <div class="questions_answered container border text-light p-3">
             <h1>Login Page</h1>
+            {% if error %}
+            <h4 class="text-danger">{{ error }}</h4>
+            {% endif %}
             <hr class="text-light" />
-            <form>
+            <form action="/login" method="POST">
                 <div class="mb-3">
                     <label for="exampleInputEmail1" class="form-label">Enter your username</label>
                     <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="name">
