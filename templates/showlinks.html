@@ -1,17 +1,36 @@
-{% macro show_links() %}
-<ul class="nav justify-content-center bg-dark p-3">
+{% macro show_links(user) %}
+<ul class="nav justify-content-center p-1">
     <li class="nav-item">
-        <a class="nav-link text-light" aria-current="page" href="{{ url_for('index') }}">Quiz App Flask</a>
+        <a class="nav-link text-dark" aria-current="page" href="{{ url_for('index') }}">Quiz App Flask</a>
+    </li>
+    {% if not user %}
+    <li class="nav-item">
+        <a class="nav-link text-dark" href="{{ url_for('login') }}">Login</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link text-light" href="{{ url_for('login') }}">Login</a>
+        <a class="nav-link text-dark" href="{{ url_for('register') }}">Register</a>
     </li>
+    {% endif %} {% if user and user['admin'] == 0 and user['teacher'] == 0 %}
     <li class="nav-item">
-        <a class="nav-link text-light" href="{{ url_for('register') }}">Register</a>
+        <a class="nav-link text-dark" href="{{ url_for('askquestions') }}">Ask Question</a>
     </li>
+    {% endif %} {% if user and user['teacher'] == 1 %}
     <li class="nav-item">
-        <a class="nav-link text-light" href="{{ url_for('logout') }}">Logout</a>
+        <a class="nav-link text-dark" href="{{ url_for('answerquestions') }}">Answer Question</a>
     </li>
+    {% endif %} {% if user['admin'] == 1 %}
+    <li class="nav-item">
+        <a class="nav-link text-dark" href="{{ url_for('allusers') }}">All Users</a>
+    </li>
+    {% endif %} {% if user %}
+    <li class="nav-item">
+        <a class="nav-link text-dark" href="{{ url_for('logout') }}">Logout</a>
+    </li>
+    {% endif %} {% if user %}
+    <li class="nav-item">
+        <a class="nav-link text-dark" href="#">User: {{ user['name'] }}</a>
+    </li>
+    {% endif %}
 </ul>
 
 {% endmacro %}

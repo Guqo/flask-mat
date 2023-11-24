@@ -13,9 +13,9 @@
 <body>
     <div class="parent">
         <div class="header mb-2">
-            {{ show_links() }}
+            {{ show_links(user) }}
         </div>
-        <div class="questions_answered container border text-light p-3">
+        <div class="questions_answered container text-light p-3">
             <h1>Register Page</h1>
             {% if error %}
             <h4 class="text-danger">{{ error }}</h4>

@@ -15,7 +15,7 @@ def get_current_user():
     if 'user' in session:
         user = session['user']
         db = getDatabase()
-        user_cursor = db.execute("select * from user where name = ?", [user])
+        user_cursor = db.execute("select * from users where name = ?", [user])
         user_result = user_cursor.fetchone()
     return user_result
 
@@ -29,10 +29,10 @@ def login():
     user = get_current_user()
     error = None
     if request.method == 'POST':
+        db = getDatabase()
         name = request.form['name']
         password = request.form['password']
-        db = getDatabase()
-        fetchedperson_cursor = db.execute("select * from users table where name = ?", [name])
+        fetchedperson_cursor = db.execute("select * from users where name = ?", [name])
         personfromdatabase = fetchedperson_cursor.fetchone()
         if personfromdatabase:
             if check_password_hash(personfromdatabase['password'], password):
@@ -40,10 +40,10 @@ def login():
                 return redirect(url_for('index'))
             else:
                 error = "Username or password did not match. Try again."
-                return render_template('login.html', error = error)
+                # return render_template('login.html', error = error)
         else:
             error = "Username or password did not match. Try again."
-            return redirect(url_for('login'))
+            # return redirect(url_for('login'))
 
     return render_template("login.html", user = user, error = error)
 
@@ -67,6 +67,43 @@ def register():
         session['user'] = name
         return redirect(url_for('index'))
     return render_template("register.html", user = user)
+
+@app.route('/askquestions', methods = ["POST", "GET"])
+def askquestions():
+    user = get_current_user()
+    db = getDatabase()
+    if request.method == "POST":
+        question = request.form['question']
+        teacher = request.form['teacher']
+        db.execute("insert into questions (question_text, asked_by_id, teacher_id) values (?,?,?)", [question, user['id'], teacher])
+        db.commit()
+
+    teacher_cursor = db.execute("select * from users where teacher = 1")
+    allteachers = teacher_cursor.fetchall()
+    return render_template("askquestions.html", user = user, allteachers = allteachers)
+
+@app.route('/answerquestions')
+def answerquestions():
+    user = get_current_user()
+    return render_template("answerquestions.html", user = user)
+
+@app.route('/allusers', methods = ["POST", "GET"])
+def allusers():
+    user = get_current_user()
+    db = getDatabase()
+    user_cursor = db.execute("select * from users")
+    allusers = user_cursor.fetchall()
+    return render_template("allusers.html", user = user, allusers = allusers)
+
+@app.route('/promote/<int:id>', methods = ["POST", "GET"])
+def promote(id):
+    user = get_current_user()
+    if request.method == "GET":
+        db = getDatabase()
+        db.execute("update users set teacher = 1 where id = ?", [id])
+        db.commit() 
+        return redirect(url_for('allusers'))
+    return render_template("allusers.html", user = user)
 
 @app.route("/logout")
 def logout():

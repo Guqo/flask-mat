@@ -16,21 +16,24 @@
             {{ show_links(user) }}
         </div>
         <div class="questions_answered container text-light p-3">
-            <h1>Login Page</h1>
-            {% if error %}
-            <h4 class="text-danger">{{ error }}</h4>
-            {% endif %}
+            <h1>Ask a Question</h1>
+
             <hr class="text-light" />
-            <form action="/login" method="POST">
-                <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Enter your username</label>
-                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" name="name">
+            <form action="/askquestions" method="POST">
+                <div class="form-floating mb-3">
+                    <textarea class="form-control text-dark" placeholder="Enter your question" id="floatingTextarea" name="question"></textarea>
+                    <label for="floatingTextarea" class="text-dark">Enter your question</label>
                 </div>
-                <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1" name="password">
+                <div class="input-group mb-3">
+                    <label class="input-group-text" for="inputGroupSelect01">Select Teacher</label>
+                    <select class="form-select" id="inputGroupSelect01" name="teacher">
+                        <option value="selected"></option>
+                        {% for teacher in allteachers %}
+                        <option value="{{ teacher['id'] }}">{{ teacher['name'] }}</option>
+                        {% endfor %}
+                    </select>
                 </div>
-                <button type="submit" class="btn btn-sm btn-primary">Login</button>
+                <button type="submit" class="btn btn-sm btn-success">Submit</button>
             </form>
         </div>
     </div>
