@@ -1,10 +1,14 @@
 {
     "cSpell.ignoreWords": [
+        "allquestions",
+        "answerquestion",
         "appcontext",
         "fetchedperson",
         "fetcing",
         "flaskapp",
+        "onequestion",
         "personfromdatabase",
+        "unansweredquestions",
         "urandom"
     ],
     "cSpell.words": [

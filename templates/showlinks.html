@@ -12,11 +12,11 @@
     </li>
     {% endif %} {% if user and user['admin'] == 0 and user['teacher'] == 0 %}
     <li class="nav-item">
-        <a class="nav-link text-dark" href="{{ url_for('askquestions') }}">Ask Question</a>
+        <a class="nav-link text-dark" href="{{ url_for('askquestions') }}">Ask Questions</a>
     </li>
     {% endif %} {% if user and user['teacher'] == 1 %}
     <li class="nav-item">
-        <a class="nav-link text-dark" href="{{ url_for('answerquestions') }}">Answer Question</a>
+        <a class="nav-link text-dark" href="{{ url_for('unansweredquestions') }}">Unanswered Questions</a>
     </li>
     {% endif %} {% if user['admin'] == 1 %}
     <li class="nav-item">

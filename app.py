@@ -75,17 +75,34 @@ def askquestions():
     if request.method == "POST":
         question = request.form['question']
         teacher = request.form['teacher']
-        db.execute("insert into questions (question_text, asked_by_id, teacher_id) values (?,?,?)", [question, user['id'], teacher])
+        db.execute("insert into questions (question_text, asked_by_id, teacher_id) values (?,?,?)", 
+                   [question, user['id'], teacher])
         db.commit()
-
+        return redirect(url_for("index"))
     teacher_cursor = db.execute("select * from users where teacher = 1")
     allteachers = teacher_cursor.fetchall()
     return render_template("askquestions.html", user = user, allteachers = allteachers)
 
-@app.route('/answerquestions')
-def answerquestions():
+@app.route('/unansweredquestions')
+def unansweredquestions():
     user = get_current_user()
-    return render_template("answerquestions.html", user = user)
+    db = getDatabase()
+    question_cursor = db.execute("select questions.id, questions.question_text, users.name from questions join users on users.id = questions.asked_by_id where questions.answer_text is null and questions.teacher_id = ?",
+                                  [user['id']])
+    allquestions = question_cursor.fetchall()
+    return render_template("unansweredquestions.html", user = user, allquestions = allquestions)
+
+@app.route('/answerquestion/<question_id>', methods = ["POST", "GET"])
+def answerquestion(question_id):
+    user = get_current_user()
+    db = getDatabase()
+    if request.method == "POST":
+        db.execute("update questions set answer_text = ? where id = ?", [request.form['answer'], question_id])
+        db.commit()
+        return redirect('unansweredquestions')
+    question_cursor = db.execute("select id, question_text from questions where id = ?", [question_id])
+    question = question_cursor.fetchone()
+    return render_template("answerquestion.html", user = user, question = question)
 
 @app.route('/allusers', methods = ["POST", "GET"])
 def allusers():
