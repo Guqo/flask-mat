@@ -3,6 +3,7 @@
         "allquestions",
         "answerquestion",
         "appcontext",
+        "eachquestion",
         "fetchedperson",
         "fetcing",
         "flaskapp",
